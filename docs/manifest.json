@@ -2,7 +2,7 @@
     "name": "7 Minute Workout",
     "short_name": "7MinWorkout",
     "description": "A timed fitness app with customizable exercises",
-    "start_url": "/",
+    "start_url": "index.html",
     "display": "standalone",
     "background_color": "#0f172a",
     "theme_color": "#4f46e5",

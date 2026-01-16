@@ -236,5 +236,12 @@
     </div>
 
     <script src="app.js"></script>
+    <script>
+        // Register the service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+            .then(() => console.log("Service Worker Registered"));
+        }
+    </script>
 </body>
 </html>
