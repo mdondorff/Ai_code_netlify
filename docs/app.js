@@ -131,6 +131,29 @@ function init() {
     setupEventListeners();
 }
 
+let wakeLock = null;
+// Function to request the wake lock
+const requestWakeLock = async () => {
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    console.log('Screen Wake Lock is active!');
+    
+    // Listen for the lock being released (e.g., by the system)
+    wakeLock.addEventListener('release', () => {
+      console.log('Screen Wake Lock was released');
+    });
+  } catch (err) {
+    console.error(`${err.name}, ${err.message}`);
+  }
+};
+
+function releaseWakeLock() {
+    if (wakeLock !== null) {
+      wakeLock.release();
+      wakeLock = null;
+    }
+}
+
 // Load settings from localStorage
 function loadSettings() {
     const saved = localStorage.getItem('workoutSettings');
@@ -353,6 +376,13 @@ function setupEventListeners() {
 
     // Restart button
     document.getElementById('restart-btn').addEventListener('click', restartApp);
+
+    // Regain wake lock on screen entrance.
+    document.addEventListener('visibilitychange', async () => {
+      if (wakeLock !== null && document.visibilityState === 'visible') {
+        await requestWakeLock();
+      }
+    });
 }
 
 // Handle setting adjustment
@@ -481,6 +511,7 @@ function startWorkout() {
     };
 
     showScreen('workout');
+    requestWakeLock();
     updateWorkoutDisplay();
     announceExercise();
     startTimer();
@@ -694,6 +725,8 @@ function completeWorkout() {
 
     // Record workout completion for today
     recordWorkoutCompletion();
+
+    releaseWakeLock();
 
     // Calculate actual workout duration
     const endTime = Date.now();
