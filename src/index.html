@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="7 Minute Workout - A timed fitness app with customizable exercises">
+    <meta name="theme-color" content="#4f46e5">
+    <title>7 Minute Workout</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Start Screen -->
+        <section id="start-screen" class="screen active">
+            <header class="app-header">
+                <h1>7 Minute Workout</h1>
+                <p class="subtitle">Get fit in minutes!</p>
+            </header>
+
+            <div class="calendar-panel">
+                <div class="calendar-header">
+                    <button type="button" id="prev-month-btn" class="btn-calendar-nav" aria-label="Previous month">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <span id="calendar-month-year">January 2025</span>
+                    <button type="button" id="next-month-btn" class="btn-calendar-nav" aria-label="Next month">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+                <div id="calendar-grid" class="calendar-grid">
+                    <!-- Populated by JavaScript -->
+                </div>
+                <div class="streak-display">
+                    <svg class="streak-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8zm0 18c-3.35 0-6-2.57-6-6.2 0-2.34 1.95-5.44 6-9.14 4.05 3.7 6 6.79 6 9.14 0 3.63-2.65 6.2-6 6.2zm-1-9.6V14h2v-3.6l1.8 1.8 1.4-1.4L12 6.6l-4.2 4.2 1.4 1.4 1.8-1.8z"/>
+                    </svg>
+                    <span><span id="streak-count">0</span> day streak</span>
+                </div>
+            </div>
+
+            <div class="settings-panel">
+                <h2>Settings</h2>
+
+                <div class="setting-group">
+                    <label for="exercise-duration">Exercise Duration</label>
+                    <div class="setting-control">
+                        <button type="button" class="btn-adjust" data-setting="exercise-duration" data-action="decrease">-</button>
+                        <span id="exercise-duration-value">30</span>
+                        <span class="unit">seconds</span>
+                        <button type="button" class="btn-adjust" data-setting="exercise-duration" data-action="increase">+</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label for="break-duration">Break Duration</label>
+                    <div class="setting-control">
+                        <button type="button" class="btn-adjust" data-setting="break-duration" data-action="decrease">-</button>
+                        <span id="break-duration-value">10</span>
+                        <span class="unit">seconds</span>
+                        <button type="button" class="btn-adjust" data-setting="break-duration" data-action="increase">+</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label for="sets">Number of Sets</label>
+                    <div class="setting-control">
+                        <button type="button" class="btn-adjust" data-setting="sets" data-action="decrease">-</button>
+                        <span id="sets-value">1</span>
+                        <span class="unit">set(s)</span>
+                        <button type="button" class="btn-adjust" data-setting="sets" data-action="increase">+</button>
+                    </div>
+                </div>
+
+                <div class="setting-group toggle-group">
+                    <label for="voice-toggle">Voice Announcements</label>
+                    <button type="button" id="voice-toggle" class="toggle-btn" aria-pressed="true">
+                        <span class="toggle-slider"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="exercise-preview">
+                <h2>Exercises (<span id="exercise-count">7</span>)</h2>
+                <ul id="exercise-list" class="exercise-list">
+                    <!-- Populated by JavaScript -->
+                </ul>
+            </div>
+
+            <button type="button" id="start-btn" class="btn-primary">
+                Start Workout
+            </button>
+
+            <div class="workout-summary">
+                <p>Total time: <span id="total-time">~5 min</span></p>
+            </div>
+        </section>
+
+        <!-- Workout Screen -->
+        <section id="workout-screen" class="screen">
+            <div class="workout-header">
+                <div class="progress-info">
+                    <span id="current-exercise-num">1</span>/<span id="total-exercises">7</span>
+                    <span class="set-info">Set <span id="current-set">1</span>/<span id="total-sets">1</span></span>
+                </div>
+            </div>
+
+            <div class="workout-content">
+                <div id="countdown-display" class="countdown-circle">
+                    <svg class="progress-ring" viewBox="0 0 200 200">
+                        <circle class="progress-ring-bg" cx="100" cy="100" r="90"/>
+                        <circle id="progress-ring-circle" class="progress-ring-circle" cx="100" cy="100" r="90"/>
+                    </svg>
+                    <div class="countdown-inner">
+                        <span id="countdown-time" class="countdown-time">30</span>
+                        <span class="countdown-label">seconds</span>
+                    </div>
+                </div>
+
+                <div id="exercise-display" class="exercise-display">
+                    <div id="exercise-image" class="exercise-image">
+                        <!-- SVG image inserted here -->
+                    </div>
+                    <h2 id="exercise-name" class="exercise-name">Squats</h2>
+                </div>
+
+                <div id="next-up" class="next-up">
+                    <span class="next-label">Next:</span>
+                    <span id="next-exercise-name">Jump Squats</span>
+                </div>
+            </div>
+
+            <div class="workout-controls">
+                <button type="button" id="cancel-btn" class="btn-secondary btn-icon" aria-label="Cancel workout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Cancel
+                </button>
+                <button type="button" id="pause-btn" class="btn-primary btn-icon" aria-label="Pause workout">
+                    <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                    <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                        <polygon points="5,3 19,12 5,21"></polygon>
+                    </svg>
+                    <span id="pause-text">Pause</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Break Screen -->
+        <section id="break-screen" class="screen">
+            <div class="workout-header">
+                <div class="progress-info">
+                    <span id="break-current-exercise">1</span>/<span id="break-total-exercises">7</span>
+                    <span class="set-info">Set <span id="break-current-set">1</span>/<span id="break-total-sets">1</span></span>
+                </div>
+            </div>
+
+            <div class="break-content">
+                <h2 class="break-title">Rest</h2>
+                <div id="break-countdown-display" class="countdown-circle break-countdown">
+                    <svg class="progress-ring" viewBox="0 0 200 200">
+                        <circle class="progress-ring-bg" cx="100" cy="100" r="90"/>
+                        <circle id="break-progress-ring-circle" class="progress-ring-circle" cx="100" cy="100" r="90"/>
+                    </svg>
+                    <div class="countdown-inner">
+                        <span id="break-countdown-time" class="countdown-time">10</span>
+                        <span class="countdown-label">seconds</span>
+                    </div>
+                </div>
+
+                <div class="upcoming-exercise">
+                    <span class="upcoming-label">Coming up:</span>
+                    <div id="upcoming-exercise-image" class="exercise-image small">
+                        <!-- SVG image inserted here -->
+                    </div>
+                    <h3 id="upcoming-exercise-name">Jump Squats</h3>
+                </div>
+            </div>
+
+            <div class="workout-controls">
+                <button type="button" id="break-cancel-btn" class="btn-secondary btn-icon" aria-label="Cancel workout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Cancel
+                </button>
+                <button type="button" id="skip-break-btn" class="btn-primary">
+                    Skip Break
+                </button>
+            </div>
+        </section>
+
+        <!-- Complete Screen -->
+        <section id="complete-screen" class="screen">
+            <div class="complete-content">
+                <div class="trophy-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M8 21h8m-4-4v4m-5-8a5 5 0 0 1-3-4.5V4h16v4.5a5 5 0 0 1-3 4.5m-5 0a5 5 0 0 1-5-5V4h10v4a5 5 0 0 1-5 5z"/>
+                        <path d="M5 4H3v3a3 3 0 0 0 3 3m13-6h2v3a3 3 0 0 1-3 3"/>
+                    </svg>
+                </div>
+                <h1 class="complete-title">Workout Complete!</h1>
+                <p class="complete-message">Great job! You crushed it!</p>
+
+                <div class="workout-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="stat-exercises">7</span>
+                        <span class="stat-label">Exercises</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="stat-sets">1</span>
+                        <span class="stat-label">Sets</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="stat-time">5:00</span>
+                        <span class="stat-label">Duration</span>
+                    </div>
+                </div>
+
+                <button type="button" id="restart-btn" class="btn-primary">
+                    Back to Start
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

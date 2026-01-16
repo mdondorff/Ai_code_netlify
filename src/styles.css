@@ -1,0 +1,764 @@
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --secondary-color: #64748b;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --break-color: #06b6d4;
+    --bg-color: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.2s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+.app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Screens */
+.screen {
+    display: none;
+    padding: 1.5rem;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Start Screen */
+#start-screen {
+    gap: 1.5rem;
+}
+
+.app-header {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.app-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.app-header .subtitle {
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* Settings Panel */
+.settings-panel {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+}
+
+.settings-panel h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.setting-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.setting-group:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.setting-group label {
+    font-weight: 500;
+}
+
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.setting-control span:first-of-type {
+    font-size: 1.25rem;
+    font-weight: 600;
+    min-width: 2rem;
+    text-align: center;
+}
+
+.setting-control .unit {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    min-width: 4rem;
+}
+
+.btn-adjust {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-adjust:hover {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+}
+
+.btn-adjust:active {
+    transform: scale(0.95);
+}
+
+/* Toggle Button */
+.toggle-group {
+    padding-top: 1rem !important;
+}
+
+.toggle-btn {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    background: var(--border-color);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.toggle-btn[aria-pressed="true"] {
+    background: var(--primary-color);
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    background: var(--text-primary);
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.toggle-btn[aria-pressed="true"] .toggle-slider {
+    transform: translateX(24px);
+}
+
+/* Calendar Panel */
+.calendar-panel {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.calendar-header span {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.btn-calendar-nav {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.btn-calendar-nav svg {
+    width: 16px;
+    height: 16px;
+}
+
+.btn-calendar-nav:hover {
+    background: var(--border-color);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 0.25rem 0;
+    text-transform: uppercase;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    border-radius: 50%;
+    color: var(--text-secondary);
+}
+
+.calendar-day.empty {
+    background: transparent;
+}
+
+.calendar-day.today {
+    border: 2px solid var(--primary-color);
+    color: var(--text-primary);
+}
+
+.calendar-day.completed {
+    background: var(--success-color);
+    color: white;
+    font-weight: 600;
+}
+
+.calendar-day.completed.today {
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 2px var(--bg-secondary);
+}
+
+.streak-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.streak-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--warning-color);
+}
+
+.streak-display #streak-count {
+    font-weight: 700;
+    color: var(--warning-color);
+}
+
+/* Exercise Preview */
+.exercise-preview {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+}
+
+.exercise-preview h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.exercise-list {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.exercise-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: var(--bg-color);
+    border-radius: var(--radius-sm);
+}
+
+.exercise-list .exercise-thumb {
+    width: 40px;
+    height: 40px;
+    background: var(--border-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.exercise-list .exercise-thumb svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--text-secondary);
+}
+
+.exercise-list .exercise-info {
+    flex: 1;
+}
+
+.exercise-list .exercise-info span {
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn-primary {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    padding: 1rem 1.5rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    border-color: var(--text-secondary);
+    background: var(--border-color);
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.workout-summary {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Workout Screen */
+#workout-screen,
+#break-screen {
+    background: var(--bg-color);
+    justify-content: space-between;
+}
+
+.workout-header {
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.progress-info {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.progress-info span:first-child {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.set-info {
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border-color);
+}
+
+.workout-content,
+.break-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+/* Countdown Circle */
+.countdown-circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: var(--bg-secondary);
+    stroke-width: 8;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: var(--primary-color);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 565.48;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.1s linear;
+}
+
+.break-countdown .progress-ring-circle {
+    stroke: var(--break-color);
+}
+
+.countdown-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.countdown-time {
+    display: block;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.countdown-label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Exercise Display */
+.exercise-display {
+    text-align: center;
+}
+
+.exercise-image {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exercise-image svg {
+    width: 80px;
+    height: 80px;
+    stroke: var(--text-primary);
+}
+
+.exercise-image.small {
+    width: 80px;
+    height: 80px;
+}
+
+.exercise-image.small svg {
+    width: 50px;
+    height: 50px;
+}
+
+.exercise-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* Next Up */
+.next-up {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+}
+
+.next-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+#next-exercise-name {
+    font-weight: 600;
+}
+
+/* Break Screen */
+.break-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--break-color);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.upcoming-exercise {
+    text-align: center;
+}
+
+.upcoming-label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+}
+
+.upcoming-exercise h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Workout Controls */
+.workout-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.workout-controls .btn-primary {
+    padding: 0.875rem 1rem;
+}
+
+.workout-controls .btn-secondary {
+    padding: 0.875rem 1rem;
+}
+
+/* Complete Screen */
+#complete-screen {
+    background: linear-gradient(180deg, var(--bg-color) 0%, var(--bg-secondary) 100%);
+    justify-content: center;
+}
+
+.complete-content {
+    text-align: center;
+}
+
+.trophy-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--warning-color) 0%, #fbbf24 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: trophy-bounce 0.6s ease-out;
+}
+
+.trophy-icon svg {
+    width: 60px;
+    height: 60px;
+    stroke: white;
+}
+
+@keyframes trophy-bounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.complete-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.complete-message {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+.workout-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#restart-btn {
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+/* Paused State */
+.paused .countdown-time {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Responsive */
+@media (max-width: 360px) {
+    .app-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .countdown-circle {
+        width: 160px;
+        height: 160px;
+    }
+
+    .countdown-time {
+        font-size: 3rem;
+    }
+
+    .workout-stats {
+        gap: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-height: 800px) {
+    .workout-content,
+    .break-content {
+        gap: 2rem;
+    }
+
+    .countdown-circle {
+        width: 220px;
+        height: 220px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus states */
+button:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.toggle-btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
